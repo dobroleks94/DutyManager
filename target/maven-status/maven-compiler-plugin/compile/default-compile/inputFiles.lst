@@ -1,0 +1,12 @@
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/Main.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/StageCreationService.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/FacultyUnit.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/FacultyDataService.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/Officer.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/FacultyDutyInfo.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/Faculty.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/DutyListGeneratorService.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/Utils.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/controller/CourseInfoController.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/JsonGenEntity.java
+/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/controller/MainPageController.java

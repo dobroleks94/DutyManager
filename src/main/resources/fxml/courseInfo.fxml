@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.CourseInfoController">
+   <children>
+      <ComboBox fx:id="eduUnits" layoutX="210.0" layoutY="76.0" onAction="#chosenUnit" onShown="#updateFields" prefHeight="26.0" prefWidth="122.0" />
+      <TextField fx:id="genCount" layoutX="565.0" layoutY="74.0" prefHeight="26.0" prefWidth="82.0">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font></TextField>
+      <Label layoutX="406.0" layoutY="77.0" text="К-сть курсантів:" underline="true">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="90.0" layoutY="77.0" text="Підрозділ №" underline="true">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <Button defaultButton="true" layoutX="85.0" layoutY="490.0" mnemonicParsing="false" onAction="#generateDutyList" prefHeight="41.0" prefWidth="401.0" text="Згенерувати розхід">
+         <font>
+            <Font name="Times New Roman Bold" size="22.0" />
+         </font>
+      </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d6d6d673" height="362.0" layoutX="78.0" layoutY="115.0" stroke="#00000087" strokeLineCap="ROUND" strokeWidth="2.0" width="598.0" />
+      <Label layoutX="105.0" layoutY="130.0" text="Наряд:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="168.0" text="Сан. частина:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="104.0" layoutY="207.0" text="Шпиталь:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="148.0" layoutY="242.0" text="Лежать:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="148.0" layoutY="276.0" text="На візит:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="103.0" layoutY="363.0" text="Відпустка:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="101.0" layoutY="402.0" text="Відрядження:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="104.0" layoutY="323.0" text="Звільнення:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="102.0" layoutY="440.0" text="Примітка:" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="dutyNamesStr" layoutX="260.0" layoutY="128.0" prefHeight="26.0" prefWidth="401.0" promptText="Прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="illNamesStr" layoutX="260.0" layoutY="166.0" prefHeight="26.0" prefWidth="401.0" promptText="Прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="inHospitalNamesStr" layoutX="259.0" layoutY="238.0" prefHeight="26.0" prefWidth="401.0" promptText="Прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="gotoHospitalNamesStr" layoutX="259.0" layoutY="272.0" prefHeight="26.0" prefWidth="401.0" promptText="Прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="onLeaveNamesStr" layoutX="260.0" layoutY="321.0" prefHeight="26.0" prefWidth="401.0" promptText="Кількість або прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="vacationNamesStr" layoutX="260.0" layoutY="361.0" prefHeight="26.0" prefWidth="401.0" promptText="Кількість або прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="detachedNamesStr" layoutX="259.0" layoutY="400.0" prefHeight="26.0" prefWidth="401.0" promptText="Кількість або прізвища">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="otherNamesStr" layoutX="259.0" layoutY="439.0" prefHeight="26.0" prefWidth="401.0" promptText="напр. Музей - 23; Екскурсія - 15;">
+         <font>
+            <Font name="Times New Roman Italic" size="16.0" />
+         </font>
+      </TextField>
+      <Line endX="545.0" layoutX="187.0" layoutY="63.0" startX="-165.0" />
+      <Label layoutX="25.0" layoutY="18.0" text="ЧФ:">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="currentDutyOfficer" layoutX="73.0" layoutY="17.0" text="(черговий факультету)">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="time" layoutX="346.0" layoutY="17.0" text="(09:00)">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="date" layoutX="522.0" layoutY="18.0" text="(24 жовтня 2020 року)" underline="true">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="499.0" layoutY="490.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="41.0" prefWidth="162.0" text="На головну">
+         <font>
+            <Font name="Times New Roman Bold" size="22.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
