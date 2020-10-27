@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheets/test.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.MainPageController">
    <children>
-      <Button fx:id="startButton" defaultButton="true" layoutX="194.0" layoutY="321.0" mnemonicParsing="false" onAction="#start" prefHeight="40.0" prefWidth="214.0" text="Продовжити" textAlignment="CENTER" textOverrun="CLIP">
+      <Button fx:id="startButton" styleClass="test, test2" defaultButton="true" layoutX="194.0" layoutY="321.0" mnemonicParsing="false" onAction="#start" prefHeight="40.0" prefWidth="214.0" text="Продовжити" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="Times New Roman Bold" size="20.0" />
          </font>
