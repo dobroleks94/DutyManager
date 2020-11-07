@@ -11,6 +11,8 @@ public class FacultyDutyInfo {
 
     private Officer dutyPerson;
 
+    private int womenAdj;
+
 
     public FacultyDutyInfo(){}
     public String getDutyTime() {
@@ -46,6 +48,13 @@ public class FacultyDutyInfo {
     }
     public void setFacultyNum(int facultyNum) {
         this.facultyNum = facultyNum;
+    }
+
+    public int getWomenAdj() {
+        return womenAdj;
+    }
+    public void setWomenAdj(int womenAdj) {
+        this.womenAdj = womenAdj;
     }
 
     @Override

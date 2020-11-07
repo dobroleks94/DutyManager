@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import org.codehaus.jackson.map.ObjectMapper;
 import pl.jsolve.templ4docx.core.Docx;
 
-import javax.rmi.CORBA.Util;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,31 +56,46 @@ public class Utils {
         return list.toString().substring(1, list.toString().length() - 1);
     }
 
-    public static String trimMap(Map<String, Integer> map) {
+    public static String trimMap(Map<String, ?> map) {
         StringBuilder sb = new StringBuilder();
         map.forEach((descr, count) -> sb.append(descr).append(" - ").append(count).append("; "));
         return sb.toString().trim();
     }
 
-    public static String buildAdditionalDataString(List<FacultyUnit> unit, String additionalData){
+
+    public static String buildAdditionalDataString(List<FacultyUnit> unit, String additionalData, int womenAdj){
         StringBuilder sb = new StringBuilder(additionalData + ": ");
 
         for(FacultyUnit single : unit){
             String cadets = "";
+            String women = "";
             switch (additionalData){
                 case "відп":
                     cadets = Utils.trimList(single.getVacationsCadets());
+                    women = Utils.trimList(single.getWomen().getVacationsCadets());
                     break;
                 case "зв-ня":
                     cadets = Utils.trimList(single.getOnLeaveCadets());
+                    women = Utils.trimList(single.getWomen().getOnLeaveCadets());
                     break;
                 case "відр":
                     cadets = Utils.trimList(single.getDetachedCadets());
+                    women = Utils.trimList(single.getWomen().getDetachedCadets());
                     break;
             }
-            if ("".equals(cadets))
+            if ("".equals(cadets) & "".equals(women))
                 continue;
-            sb.append(String.format(" %dк - %s; ", single.getUnitNumber(), cadets));
+            switch (womenAdj){
+                case 1:
+                    if(!"".equals(women)) sb.append(String.format(" %d - %s (%s)", single.getUnitNumber(), cadets, women));
+                    else sb.append(String.format(" %dк - %s; ", single.getUnitNumber(), cadets));
+                    break;
+                case 2:
+                    sb.append(String.format(" %dк - %s; ", single.getUnitNumber(), cadets));
+                    break;
+                default:
+                    sb.append(String.format( "%d - %s", single.getUnitNumber(), cadets)).append(String.format(", %s", women));
+            }
         }
 
         if("відп: ".equals(sb.toString()) || "зв-ня: ".equals(sb.toString()) || "відр: ".equals(sb.toString()))

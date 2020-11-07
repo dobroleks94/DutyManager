@@ -1,22 +1,16 @@
 package com.app.services;
 
-import com.app.entity.Faculty;
-import com.app.entity.FacultyDutyInfo;
-import com.app.entity.FacultyUnit;
-import com.app.entity.Officer;
+import com.app.entity.*;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import javax.rmi.CORBA.Util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.TemporalAccessor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -45,7 +39,7 @@ public class FacultyDataService {
         setFacultyDutyInfo(info);
     }
 
-    public static void updateFacultyDutyInfo(int facultyNumber, String dutyTime, String dutyDate, Officer dutyOfficer, FacultyDutyInfo facultyDutyInfo) {
+    public static void updateFacultyDutyInfo(int facultyNumber, String dutyTime, String dutyDate, Officer dutyOfficer, FacultyDutyInfo facultyDutyInfo, String womenAdj) {
 
         Faculty faculty = Faculty.getByNumber(facultyNumber);
 
@@ -54,6 +48,9 @@ public class FacultyDataService {
         facultyDutyInfo.setDutyPerson(dutyOfficer);
         facultyDutyInfo.setFaculty(faculty);
         facultyDutyInfo.setFacultyNum(FacultyDutyInfo.getFaculty().getNumber());
+        facultyDutyInfo.setWomenAdj(
+                womenAdj.equals("general") ? 0 : womenAdj.equals("withWomen") ? 1 : 2
+        );
 
         setFacultyDutyInfo(facultyDutyInfo);
     }
@@ -86,11 +83,22 @@ public class FacultyDataService {
     }
 
     public static FacultyUnit createFacultyUnit(Integer unitNumber) {
-        return new FacultyUnit(unitNumber);
+        FacultyUnit newUnit = new FacultyUnit(unitNumber);
+        newUnit.setWomen(new FacultyUnitWomen(newUnit));
+        return newUnit;
     }
 
-    public static FacultyUnit updateFacultyUnit(FacultyUnit currentFacultyUnit, String... fields) {
+    public static FacultyUnit updateFacultyUnit(boolean women, FacultyUnit currentFacultyUnit, String... fields) {
+        if(women){
+            currentFacultyUnit.setWomen(
+                    (FacultyUnitWomen) doGeneralUpdate(currentFacultyUnit.getWomen(), fields)
+            );
+            return currentFacultyUnit;
+        }
 
+        return doGeneralUpdate(currentFacultyUnit, fields);
+    }
+    private static FacultyUnit doGeneralUpdate(FacultyUnit currentFacultyUnit, String[] fields){
         currentFacultyUnit.setGeneralCadetCount(Utils.tryParse(fields[0]) ? Integer.parseInt(fields[0]) : 0);
         currentFacultyUnit.setDutyCadets(Utils.getNamesFrom(fields[1]));
         currentFacultyUnit.setIllCadets(Utils.getNamesFrom(fields[2]));
@@ -137,14 +145,12 @@ public class FacultyDataService {
         }
 
         return currentFacultyUnit;
-
     }
 
 
     public static FacultyDutyInfo getFacultyDutyInfo() {
         return facultyDutyInfo;
     }
-
     public static void setFacultyDutyInfo(FacultyDutyInfo facultyDutyInfo) {
         FacultyDataService.facultyDutyInfo = facultyDutyInfo;
     }
@@ -189,6 +195,54 @@ public class FacultyDataService {
         return "0".equals(returnedStatement) ? "" : returnedStatement;
     }
 
+    public static String processHospRepres(String hosp, String hospW, boolean names, boolean general) {
+        if(names){
+            ArrayList<String> menInGo = new ArrayList<>(Arrays.asList(hosp.split("/")));
+            ArrayList<String> womenInGo = new ArrayList<>(Arrays.asList(hospW.split("/")));
+            if (menInGo.size() < 2) menInGo.add("");
+            if(womenInGo.size() < 2) womenInGo.add("");
+
+            StringBuilder result = new StringBuilder();
+            result.append(menInGo.get(0))
+                    .append("".equals(womenInGo.get(0).trim()) ? "" : ",")
+                    .append((general) ? String.format(" %s", womenInGo.get(0)) : !"".equals(womenInGo.get(0).trim()) ? String.format(" (%s) ", womenInGo.get(0)) : "")
+                    .append("".equals(womenInGo.get(1).trim()) & "".equals(menInGo.get(1).trim()) ? "" : " / ")
+                    .append(menInGo.get(1))
+                    .append("".equals(menInGo.get(1).trim()) ? "" : ",")
+                    .append((general) ? String.format(" %s", womenInGo.get(1)) : !"".equals(womenInGo.get(1).trim()) ? String.format(" (%s) ", womenInGo.get(1)) : "");
+            return result.toString();
+        }
+        else {
+            List<Integer> menValues = getEvaluations(hosp);
+            List<Integer> womenValues = getEvaluations(hospW);
+            int menInHosp = menValues.get(0);
+            int menGoHosp = menValues.size() > 1 ? menValues.get(1) : 0;
+            int womenInHosp = womenValues.get(0);
+            int womenGoHosp = womenValues.size() > 1 ? womenValues.get(1) : 0;
+
+            if (menGoHosp == 0 & womenGoHosp == 0)
+                return String.valueOf(menInHosp + womenInHosp);
+
+            return (general) ? (menInHosp + womenInHosp) + "/" + (menGoHosp + womenGoHosp)
+                             : (womenInHosp == 0) ? String.format("%d / %d (%d)", menInHosp + womenInHosp, menGoHosp + womenGoHosp, womenGoHosp)
+                             : (womenGoHosp == 0) ? String.format("%d (%d) / %d", menInHosp + womenInHosp, womenInHosp, menGoHosp + womenGoHosp)
+                             : String.format("%d (%d) / %d (%d)", menInHosp + womenInHosp, womenInHosp, menGoHosp + womenGoHosp, womenGoHosp);
+        }
+    }
+
+    private static List<Integer> getEvaluations(String hosp) {
+        List<Integer> list = new ArrayList<>();
+        if(!"".equals(hosp) & Utils.tryParse(hosp))
+            list.add(Integer.parseInt(hosp.trim()));
+        else if (!"".equals(hosp) & hosp.contains("/")){
+            List<Integer> ingo =  Arrays.stream(hosp.split("/")).map(item -> Integer.parseInt(item.trim())).collect(Collectors.toList());
+            list.add(ingo.get(0));
+            list.add(ingo.get(1));
+        }
+        else list.add(0);
+        return list;
+    }
+
 
 
     public static String getOtherCadetInfo(FacultyUnit unit) {
@@ -208,5 +262,97 @@ public class FacultyDataService {
 
 
         return sb.toString();
+    }
+
+    public static String processOtherRepres(String other, String otherW, int womenAdj) {
+
+        Map<String, Integer> otherMen = getKeyValEvaluations(other);
+        Map<String, Integer> otherWomen = getKeyValEvaluations(otherW);
+
+        StringBuilder sb = new StringBuilder();
+        String detached = "0", oth = "0";
+        switch (womenAdj){
+            case 0:
+                detached = String.valueOf(otherMen.get("відр") + otherWomen.get("відр"));
+                oth = String.valueOf(otherMen.get("інші заходи") + otherWomen.get("інші заходи"));
+                break;
+            case 1:
+                detached = String.format("%d (%d)", (otherMen.get("відр") + otherWomen.get("відр")), otherWomen.get("відр"));
+                oth = String.format("%d (%d)", (otherMen.get("інші заходи") + otherWomen.get("інші заходи")), otherWomen.get("інші заходи"));
+                break;
+        }
+
+        if (otherMen.get("відр") > 0 || otherWomen.get("відр") > 0) sb.append("відр - ").append(detached).append(";\n");
+        if (otherMen.get("інші заходи") > 0 || otherWomen.get("інші заходи") > 0) sb.append("\nінші заходи - ").append(oth);
+
+        return sb.toString();
+    }
+
+    public static String processOtherRepres(Map<String, Integer> other, Map<String, Integer> otherW, int womenAdj) {
+
+        Map<String, String> res = new HashMap<>();
+        other.forEach((key, value) -> res.putIfAbsent(key, ""));
+        otherW.forEach((key, value) -> res.putIfAbsent(key, ""));
+
+        switch (womenAdj){
+            case 0:
+                res.entrySet().forEach(item -> {
+                    int men = other.getOrDefault(item.getKey(), 0);
+                    int women = otherW.getOrDefault(item.getKey(), 0);
+                    item.setValue(String.format("%d", men + women));
+                });
+                break;
+            case 1:
+                res.entrySet().forEach(item -> {
+                    int men = other.getOrDefault(item.getKey(), 0);
+                    int women = otherW.getOrDefault(item.getKey(), 0);
+                    item.setValue(String.format("%d (%d)", men + women, women));
+                });
+                break;
+        }
+
+        return Utils.trimMap(res);
+    }
+
+    private static Map<String, Integer> getKeyValEvaluations(String other) {
+        HashMap<String, Integer> data = new HashMap<>();
+        data.put("відр", 0);
+        data.put("інші заходи", 0);
+
+        Pattern pattern = Pattern.compile("[іа-я]+\\s\\-\\s\\d+");
+        Matcher m = pattern.matcher(other);
+        List<String> val = new ArrayList<>();
+        while (m.find()){
+            if(m.group().contains("відр"))
+                data.merge("відр",
+                        Utils.tryParse(m.group().split("-")[1]) ? Integer.parseInt(m.group().split("-")[1].trim()) : 0,
+                        Integer::sum);
+            else if(m.group().contains("заходи"))
+                data.merge("інші заходи",
+                        Utils.tryParse(m.group().split("-")[1]) ? Integer.parseInt(m.group().split("-")[1].trim()) : 0,
+                        Integer::sum);
+        }
+
+
+        return data;
+
+    }
+
+    public static void groupInfoTogether(FacultyUnit unit){
+        try{
+
+            unit.getDutyCadets().addAll(unit.getWomen().getDutyCadets());
+            unit.getIllCadets().addAll(unit.getWomen().getIllCadets());
+            unit.getHospitalLocatedCadets().addAll(unit.getWomen().getHospitalLocatedCadets());
+            unit.getHospitalVisitCadets().addAll(unit.getWomen().getHospitalVisitCadets());
+            unit.getOnLeaveCadets().addAll(unit.getWomen().getOnLeaveCadets());
+            unit.getVacationsCadets().addAll(unit.getWomen().getVacationsCadets());
+            unit.getDetachedCadets().addAll(unit.getWomen().getDetachedCadets());
+            unit.getOtherAbsentCadets().putAll(unit.getWomen().getOtherAbsentCadets());
+
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            System.out.println("There is no explicit object of women is found!");
+        }
     }
 }

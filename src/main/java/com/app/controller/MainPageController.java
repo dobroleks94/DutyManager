@@ -1,12 +1,14 @@
 package com.app.controller;
 
 import com.app.entity.FacultyDutyInfo;
+import com.app.entity.FacultyUnit;
 import com.app.entity.Officer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.app.services.FacultyDataService;
@@ -36,6 +38,8 @@ public class MainPageController implements Initializable {
     private Label dutyDate;
     @FXML
     private TextField dutyTime, rank, fullName;
+    @FXML
+    private RadioButton genList, withWomen, withoutWomen;
 
 
     @Override
@@ -59,15 +63,31 @@ public class MainPageController implements Initializable {
         dutyTime.setText(facultyDutyInfo.getDutyTime());
         rank.setText(facultyDutyInfo.getDutyPerson().getRank());
         fullName.setText(facultyDutyInfo.getDutyPerson().getFullName());
+
+        if(facultyDutyInfo.getWomenAdj() == 0){
+            genList.setSelected(true);
+            withoutWomen.setSelected(false);
+            withWomen.setSelected(false);
+        } else if (facultyDutyInfo.getWomenAdj() == 1){
+            genList.setSelected(false);
+            withoutWomen.setSelected(false);
+            withWomen.setSelected(true);
+        } else if (facultyDutyInfo.getWomenAdj() == 2) {
+            genList.setSelected(false);
+            withoutWomen.setSelected(true);
+            withWomen.setSelected(false);
+        }
     }
 
     public void start() throws IOException {
 
         Officer dutyOfficer = FacultyDataService.specifyDutyOfficer(rank, fullName);
-        FacultyDataService.updateFacultyDutyInfo(facultyNumber.getValue(), dutyTime.getText(), dutyDate.getText(), dutyOfficer, FacultyDataService.getFacultyDutyInfo());
+        String womenAdj = genList.isSelected() ? "general" : withWomen.isSelected() ? "withWomen" : "withoutWomen";
+
+        FacultyDataService.updateFacultyDutyInfo(facultyNumber.getValue(), dutyTime.getText(), dutyDate.getText(), dutyOfficer, FacultyDataService.getFacultyDutyInfo(), womenAdj);
         System.out.println(FacultyDataService.getFacultyDutyInfo());
 
-        Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfo.fxml", 750, 550);
+        Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfoMW.fxml", 865, 570);
 
         courseInfoStage.show();
         mainPageStage.close();
@@ -80,11 +100,12 @@ public class MainPageController implements Initializable {
         boolean success = Utils.getEntitiesFromJsonRepresentation();
         if (success){
 
-            Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfo.fxml", 750, 550);
+            Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfoMW.fxml", 865, 570);
 
             courseInfoStage.show();
             mainPageStage.close();
             setMainPageStage(courseInfoStage);
         }
     }
+
 }

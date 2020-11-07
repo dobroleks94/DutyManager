@@ -8,6 +8,8 @@ import java.util.Map;
 public class FacultyUnit {
 
     private int unitNumber;
+
+
     private int generalCadetCount, onLeaveCount,
             vacationsCount,detachedCount, otherAbsentCount;
 
@@ -15,12 +17,10 @@ public class FacultyUnit {
                             onLeaveCadets, vacationsCadets, detachedCadets;
     private Map<String, Integer> otherAbsentCadets;
 
+    private FacultyUnitWomen women;
 
-    public FacultyUnit(){}
-    public FacultyUnit(int unitNumber){
 
-        this.unitNumber = unitNumber;
-
+    public FacultyUnit(){
         this.dutyCadets = new ArrayList<>();
         this.illCadets = new ArrayList<>();
         this.hospitalLocatedCadets = new ArrayList<>();
@@ -29,6 +29,10 @@ public class FacultyUnit {
         this.vacationsCadets = new ArrayList<>();
         this.detachedCadets = new ArrayList<>();
         this.otherAbsentCadets = new LinkedHashMap<>();
+    }
+    public FacultyUnit(int unitNumber){
+        this();
+        this.unitNumber = unitNumber;
     }
 
     public int getGeneralCadetCount() {
@@ -119,19 +123,10 @@ public class FacultyUnit {
         this.otherAbsentCount = otherAbsentCount;
     }
 
-    @Override
-    public String toString() {
-        return "FacultyUnit{" +
-                "\nunitNumber=" + unitNumber +
-                ", \ngeneralCadetCount=" + generalCadetCount +
-                ", \ndutyCadets=" + dutyCadets.size() +
-                ", \nillCadets=" + illCadets.size() +
-                ", \nhospitalLocatedCadets=" + hospitalLocatedCadets.size() +
-                ", \nhospitalVisitCadets=" + hospitalVisitCadets.size() +
-                ", \nonLeaveCadets=" + onLeaveCadets.size() +
-                ", \nvacationsCadets=" + vacationsCadets.size() +
-                ", \ndetachedCadets=" + detachedCadets.size() +
-                ", \notherAbsentCadets=" + otherAbsentCadets.size() +
-                '}';
+    public FacultyUnitWomen getWomen() {
+        return women;
+    }
+    public void setWomen(FacultyUnitWomen women) {
+        this.women = women;
     }
 }

@@ -1,6 +1,6 @@
 .test {
-    -fx-background-color: green;
+    -fx-background-color: #6870ff;
 }
 .test2 {
-    -fx-border-color: pink;
+    -fx-text-fill: white;
 }

@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        StageCreationService.createStage(primaryStage, "fxml/mainPage.fxml", 600, 400);
+        StageCreationService.createStage(primaryStage, "fxml/mainPage.fxml", 675, 445);
         primaryStage.show();
 
         MainPageController.setMainPageStage(primaryStage);

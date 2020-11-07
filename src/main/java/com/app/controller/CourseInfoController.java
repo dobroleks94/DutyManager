@@ -1,6 +1,8 @@
 package com.app.controller;
 
+import com.app.entity.FacultyDutyInfo;
 import com.app.entity.FacultyUnit;
+import com.app.entity.FacultyUnitWomen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,9 +27,10 @@ public class CourseInfoController implements Initializable {
     @FXML
     private ComboBox<Integer> eduUnits;
     @FXML
-    private TextField genCount, dutyNamesStr, illNamesStr, inHospitalNamesStr, gotoHospitalNamesStr, onLeaveNamesStr, vacationNamesStr, detachedNamesStr, otherNamesStr;
+    private TextField genCount, dutyNamesStr, illNamesStr, inHospitalNamesStr, gotoHospitalNamesStr, onLeaveNamesStr, vacationNamesStr, detachedNamesStr, otherNamesStr,
+            womenCount, dutyNamesStrW, illNamesStrW, inHospitalNamesStrW, gotoHospitalNamesStrW, onLeaveNamesStrW, vacationNamesStrW, detachedNamesStrW, otherNamesStrW;
     @FXML
-    private Label currentDutyOfficer, date, time;
+    private Label currentDutyOfficer, date, time, womenAdj;
 
     private static List<FacultyUnit> facultyUnits;
 
@@ -37,6 +40,7 @@ public class CourseInfoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        womenAdj.setText("Розрахунок о/с факультету" + (FacultyDataService.getFacultyDutyInfo().getWomenAdj() == 0 ? " (загальний)" : FacultyDataService.getFacultyDutyInfo().getWomenAdj() == 1 ? " (з ЖВС)" : " (без ЖВС)"));
         FacultyDataService.fillFacultyUnits(eduUnits);
         if(facultyUnits == null || facultyUnits.isEmpty())
             facultyUnits = eduUnits.getItems()
@@ -45,6 +49,7 @@ public class CourseInfoController implements Initializable {
                     .collect(Collectors.toList());
         updateForm(getCurrentFacultyUnit());
 
+
     }
 
     public void updateFields(){
@@ -52,7 +57,7 @@ public class CourseInfoController implements Initializable {
 
         int index = facultyUnits.indexOf(currentFacultyUnit);
 
-        FacultyUnit updated = FacultyDataService.updateFacultyUnit(currentFacultyUnit,
+        FacultyUnit updated = FacultyDataService.updateFacultyUnit(false, currentFacultyUnit,
                 genCount.getText(),
                 dutyNamesStr.getText(),
                 illNamesStr.getText(),
@@ -63,10 +68,41 @@ public class CourseInfoController implements Initializable {
                 detachedNamesStr.getText(),
                 otherNamesStr.getText());
 
+        updated = FacultyDataService.updateFacultyUnit(true, updated,
+                womenCount.getText(),
+                dutyNamesStrW.getText(),
+                illNamesStrW.getText(),
+                inHospitalNamesStrW.getText(),
+                gotoHospitalNamesStrW.getText(),
+                onLeaveNamesStrW.getText(),
+                vacationNamesStrW.getText(),
+                detachedNamesStrW.getText(),
+                otherNamesStrW.getText());
+
         facultyUnits.remove(index);
         facultyUnits.add(index, updated);
     }
+
+    private void updateForm(FacultyUnit unit, TextField ... fields) {
+
+        fields[0].setText(String.valueOf(unit.getGeneralCadetCount()));
+        fields[1].setText(Utils.trimList(unit.getDutyCadets()));
+        fields[2].setText(Utils.trimList(unit.getIllCadets()));
+        fields[3].setText(Utils.trimList(unit.getHospitalLocatedCadets()));
+        fields[4].setText(Utils.trimList(unit.getHospitalVisitCadets()));
+        fields[5].setText(unit.getOnLeaveCadets().isEmpty() ? unit.getOnLeaveCount() != 0 ? String.valueOf(unit.getOnLeaveCount()) : Utils.trimList(unit.getOnLeaveCadets()) : Utils.trimList(unit.getOnLeaveCadets()));
+        fields[6].setText(unit.getVacationsCadets().isEmpty() ? unit.getVacationsCount() != 0 ? String.valueOf(unit.getVacationsCount()) : Utils.trimList(unit.getVacationsCadets()) : Utils.trimList(unit.getVacationsCadets()));
+        fields[7].setText(unit.getDetachedCadets().isEmpty() ? unit.getDetachedCount() != 0 ? String.valueOf(unit.getDetachedCount()) : Utils.trimList(unit.getDetachedCadets()) : Utils.trimList(unit.getDetachedCadets()));
+        fields[8].setText(unit.getOtherAbsentCadets().isEmpty() ? unit.getOtherAbsentCount() != 0 ? String.valueOf(unit.getOtherAbsentCount()) : Utils.trimMap(unit.getOtherAbsentCadets()) : Utils.trimMap(unit.getOtherAbsentCadets()));
+
+        currentDutyOfficer.setText(FacultyDataService.getFacultyDutyInfo().getDutyPerson().getRank() + " " + FacultyDataService.getFacultyDutyInfo().getDutyPerson().getFullName());
+        time.setText(FacultyDataService.getFacultyDutyInfo().getDutyTime());
+        date.setText(FacultyDataService.getFacultyDutyInfo().getDutyDate());
+    }
     private void updateForm(FacultyUnit unit){
+
+        FacultyUnit women = unit.getWomen();
+
         genCount.setText(String.valueOf(unit.getGeneralCadetCount()));
         dutyNamesStr.setText(Utils.trimList(unit.getDutyCadets()));
         illNamesStr.setText(Utils.trimList(unit.getIllCadets()));
@@ -76,16 +112,33 @@ public class CourseInfoController implements Initializable {
         vacationNamesStr.setText(unit.getVacationsCadets().isEmpty() ? unit.getVacationsCount() != 0 ? String.valueOf(unit.getVacationsCount()) : Utils.trimList(unit.getVacationsCadets()) : Utils.trimList(unit.getVacationsCadets()));
         detachedNamesStr.setText(unit.getDetachedCadets().isEmpty() ? unit.getDetachedCount() != 0 ?  String.valueOf(unit.getDetachedCount()) : Utils.trimList(unit.getDetachedCadets()) : Utils.trimList(unit.getDetachedCadets()));
         otherNamesStr.setText(unit.getOtherAbsentCadets().isEmpty() ? unit.getOtherAbsentCount() != 0 ?  String.valueOf(unit.getOtherAbsentCount()) : Utils.trimMap(unit.getOtherAbsentCadets()) : Utils.trimMap(unit.getOtherAbsentCadets()));
+
+        womenCount.setText(String.valueOf(women.getGeneralCadetCount()));
+        dutyNamesStrW.setText(Utils.trimList(women.getDutyCadets()));
+        illNamesStrW.setText(Utils.trimList(women.getIllCadets()));
+        inHospitalNamesStrW.setText(Utils.trimList(women.getHospitalLocatedCadets()));
+        gotoHospitalNamesStrW.setText(Utils.trimList(women.getHospitalVisitCadets()));
+        onLeaveNamesStrW.setText(women.getOnLeaveCadets().isEmpty() ? women.getOnLeaveCount() != 0 ? String.valueOf(women.getOnLeaveCount()) : Utils.trimList(women.getOnLeaveCadets()) : Utils.trimList(women.getOnLeaveCadets()));
+        vacationNamesStrW.setText(women.getVacationsCadets().isEmpty() ? women.getVacationsCount() != 0 ? String.valueOf(women.getVacationsCount()) : Utils.trimList(women.getVacationsCadets()) : Utils.trimList(women.getVacationsCadets()));
+        detachedNamesStrW.setText(women.getDetachedCadets().isEmpty() ? women.getDetachedCount() != 0 ?  String.valueOf(women.getDetachedCount()) : Utils.trimList(women.getDetachedCadets()) : Utils.trimList(women.getDetachedCadets()));
+        otherNamesStrW.setText(women.getOtherAbsentCadets().isEmpty() ? women.getOtherAbsentCount() != 0 ?  String.valueOf(women.getOtherAbsentCount()) : Utils.trimMap(women.getOtherAbsentCadets()) : Utils.trimMap(women.getOtherAbsentCadets()));
+
         currentDutyOfficer.setText(FacultyDataService.getFacultyDutyInfo().getDutyPerson().getRank() + " " + FacultyDataService.getFacultyDutyInfo().getDutyPerson().getFullName());
         time.setText(FacultyDataService.getFacultyDutyInfo().getDutyTime());
         date.setText(FacultyDataService.getFacultyDutyInfo().getDutyDate());
+
     }
     private FacultyUnit getCurrentFacultyUnit(){
         return facultyUnits.stream().filter(f -> f.getUnitNumber() == eduUnits.getValue()).findFirst().orElse(new FacultyUnit(Integer.MAX_VALUE));
     }
 
     public void chosenUnit(){
-        updateForm(getCurrentFacultyUnit());
+        System.out.println(getCurrentFacultyUnit().getWomen());
+        FacultyUnit current = getCurrentFacultyUnit();
+        updateForm(current, genCount, dutyNamesStr, illNamesStr, inHospitalNamesStr, gotoHospitalNamesStr, onLeaveNamesStr,
+                                            vacationNamesStr, detachedNamesStr, otherNamesStr);
+        updateForm(current.getWomen(), womenCount, dutyNamesStrW, illNamesStrW, inHospitalNamesStrW, gotoHospitalNamesStrW, onLeaveNamesStrW,
+                vacationNamesStrW, detachedNamesStrW, otherNamesStrW);
     }
 
 
@@ -100,7 +153,7 @@ public class CourseInfoController implements Initializable {
     public void goToMain() throws IOException {
         try { updateFields(); }
         catch (Exception e) { e.printStackTrace(); }
-        Stage mainPage = StageCreationService.createStage("fxml/mainPage.fxml", 600, 400);
+        Stage mainPage = StageCreationService.createStage("fxml/mainPage.fxml", 675, 445);
 
         mainPage.show();
         MainPageController.getMainPageStage().close();
