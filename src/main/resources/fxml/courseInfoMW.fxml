@@ -9,9 +9,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.CourseInfoController">
+<AnchorPane stylesheets="@stylesheets/font-adjustments.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.CourseInfoController">
    <children>
-      <ComboBox fx:id="eduUnits" layoutX="152.0" layoutY="91.0" onAction="#chosenUnit" onShown="#updateFields" prefHeight="26.0" prefWidth="122.0" />
+      <ComboBox styleClass="combo-box-font, units" fx:id="eduUnits" layoutX="152.0" layoutY="91.0" onAction="#chosenUnit" onShown="#updateFields" prefHeight="26.0" prefWidth="122.0" />
       <TextField fx:id="genCount" layoutX="507.0" layoutY="89.0" prefHeight="26.0" prefWidth="82.0">
          <font>
             <Font name="Times New Roman" size="18.0" />

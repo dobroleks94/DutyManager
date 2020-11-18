@@ -29,7 +29,7 @@ public class DutyListGeneratorService {
 
         template.fillTemplate(variables);
 
-        Utils.saveFile(template, MainPageController.getMainPageStage());
+        Utils.saveFile(template, MainPageController.getMainPageStage(), dutyInfo);
     }
 
     private static Variables createVariablesForTempl(List<FacultyUnit> units, FacultyDutyInfo dutyInfo) {

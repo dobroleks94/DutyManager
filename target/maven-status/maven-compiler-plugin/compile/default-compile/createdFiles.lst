@@ -1,4 +1,5 @@
 com/app/controller/CourseInfoController.class
+com/app/entity/FacultyUnitWomen.class
 com/app/Main.class
 com/app/entity/FacultyDutyInfo.class
 com/app/controller/MainPageController.class

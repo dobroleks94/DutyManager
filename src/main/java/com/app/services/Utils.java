@@ -104,9 +104,13 @@ public class Utils {
         return sb.toString().trim();
     }
 
-    public static void saveFile(Docx template, Stage mainPageStage) {
+    public static void saveFile(Docx template, Stage mainPageStage, FacultyDutyInfo dutyInfo) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Зберегти розхід ...");
+        String timeRepres = dutyInfo.getDutyTime().replaceAll(":", "-");
+        fileChooser.setInitialFileName(String.format("%s.docx", timeRepres));
+        FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("Microsoft Word Document", "*.docx", "*.doc");
+        fileChooser.setSelectedExtensionFilter(extension);
         File newDutyInfoList = fileChooser.showSaveDialog(mainPageStage);
         template.save(newDutyInfoList.getPath());
     }

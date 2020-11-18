@@ -1,0 +1,11 @@
+.combo-box-font{
+    -fx-font-family: "Times New Roman";
+    -fx-font-weight: bold;
+}
+.faculties{
+    -fx-font-size: 20;
+}
+.units{
+
+    -fx-font-size: 16;
+}
