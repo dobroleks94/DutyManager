@@ -108,9 +108,9 @@ public class Utils {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Зберегти розхід ...");
         String timeRepres = dutyInfo.getDutyTime().replaceAll(":", "-");
-        fileChooser.setInitialFileName(String.format("%s.docx", timeRepres));
-        FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("Microsoft Word Document", "*.docx", "*.doc");
-        fileChooser.setSelectedExtensionFilter(extension);
+        fileChooser.setInitialFileName(timeRepres + ".docx");
+        FileChooser.ExtensionFilter extension = new FileChooser.ExtensionFilter("Microsoft Word Document (.docx, .doc)", "*.docx", "*.doc");
+        fileChooser.getExtensionFilters().add(extension);
         File newDutyInfoList = fileChooser.showSaveDialog(mainPageStage);
         template.save(newDutyInfoList.getPath());
     }

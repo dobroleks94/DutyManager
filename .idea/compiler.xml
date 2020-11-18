@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="duty-manager" />
         <module name="dutymanager" />
+        <module name="duty-manager" />
+        <module name="DutyManager" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
