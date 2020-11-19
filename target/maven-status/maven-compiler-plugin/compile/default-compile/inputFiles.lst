@@ -1,13 +1,13 @@
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/FacultyUnitWomen.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/FacultyDataService.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/DutyListGeneratorService.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/Utils.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/controller/CourseInfoController.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/controller/MainPageController.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/Main.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/services/StageCreationService.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/FacultyUnit.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/Officer.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/FacultyDutyInfo.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/Faculty.java
-/home/dobroshtan/Documents/IdeaProjects/dutymanager/src/main/java/com/app/entity/JsonGenEntity.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\Main.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\controller\MainPageController.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\services\StageCreationService.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\entity\Officer.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\entity\Faculty.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\entity\FacultyDutyInfo.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\services\FacultyDataService.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\controller\CourseInfoController.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\services\Utils.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\services\DutyListGeneratorService.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\entity\FacultyUnit.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\entity\FacultyUnitWomen.java
+D:\Duty Manager Application\DutyManager\src\main\java\com\app\entity\JsonGenEntity.java

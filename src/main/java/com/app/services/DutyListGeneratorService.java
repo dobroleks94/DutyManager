@@ -160,9 +160,9 @@ public class DutyListGeneratorService {
                 vacRepres     = vacW > 0            ?          String.format("%d (%d)", vac + vacW, vacW)                                                           : String.valueOf(vac);
                 leaveRepres   = leaveW > 0          ?          String.format("%d (%d)", leave + leaveW, leaveW)                                                     : String.valueOf(leaveW);
                 otherRepres   = otherW.size() > 0   ?          FacultyDataService.processOtherRepres(other, otherW, dutyInfo.getWomenAdj()) : Utils.trimMap(other);
-                dutyNames     = (unit.getWomen().getDutyCadets().size() > 0) ? Utils.trimList(unit.getDutyCadets()) + String.format(", (%s)", Utils.trimList(unit.getWomen().getDutyCadets()))
+                dutyNames     = (unit.getWomen().getDutyCadets().size() > 0) ? Utils.trimList(unit.getDutyCadets()) + String.format((unit.getDutyCadets().size() > 0 ? ", " : "") + "(%s)", Utils.trimList(unit.getWomen().getDutyCadets()))
                                                                              : Utils.trimList(unit.getDutyCadets());
-                illNames      = (unit.getWomen().getIllCadets().size() > 0)  ? Utils.trimList(unit.getIllCadets()) + String.format(", (%s)", Utils.trimList(unit.getWomen().getIllCadets()))
+                illNames      = (unit.getWomen().getIllCadets().size() > 0)  ? Utils.trimList(unit.getIllCadets()) + String.format((unit.getIllCadets().size() > 0 ? ", " : "") + "(%s)", Utils.trimList(unit.getWomen().getIllCadets()))
                                                                              : Utils.trimList(unit.getIllCadets());
                 hospNames     = (!hospW.equals("")) ?          FacultyDataService.processHospRepres(
                                                                             FacultyDataService.getHospitalRepresentation(unit, "names"),
@@ -191,9 +191,9 @@ public class DutyListGeneratorService {
                 vacRepres       = String.valueOf(vac + vacW);
                 leaveRepres     = String.valueOf(leave + leaveW);
                 otherRepres     = FacultyDataService.processOtherRepres(other, otherW, dutyInfo.getWomenAdj());
-                dutyNames       = (unit.getWomen().getDutyCadets().size() > 0) ? Utils.trimList(unit.getDutyCadets()) + ", " + Utils.trimList(unit.getWomen().getDutyCadets())
+                dutyNames       = (unit.getWomen().getDutyCadets().size() > 0) ? Utils.trimList(unit.getDutyCadets()) + (unit.getDutyCadets().size() > 0 ? ", " : "") + Utils.trimList(unit.getWomen().getDutyCadets())
                                                                                : Utils.trimList(unit.getDutyCadets());
-                illNames        = (unit.getWomen().getIllCadets().size() > 0) ? Utils.trimList(unit.getIllCadets()) + ", " + Utils.trimList(unit.getWomen().getIllCadets())
+                illNames        = (unit.getWomen().getIllCadets().size() > 0) ? Utils.trimList(unit.getIllCadets()) + (unit.getIllCadets().size() > 0 ? ", " : "") + Utils.trimList(unit.getWomen().getIllCadets())
                                                                                : Utils.trimList(unit.getIllCadets());
                 hospNames       = FacultyDataService.processHospRepres(
                                                              FacultyDataService.getHospitalRepresentation(unit, "names"),
@@ -205,11 +205,11 @@ public class DutyListGeneratorService {
         variables.addTextVariable(new TextVariable("#{"+ iteration + "}",       String.valueOf(unit.getUnitNumber())));
         variables.addTextVariable(new TextVariable("#{all" + iteration + "}",   allRepres));
         variables.addTextVariable(new TextVariable("#{pres" + iteration + "}",  presentRepres));
-        variables.addTextVariable(new TextVariable("#{duty" + iteration + "}",  (unit.getDutyCadets().size() > 0) ? dutyRepres  : ""));
-        variables.addTextVariable(new TextVariable("#{ill" + iteration + "}",   (unit.getIllCadets().size() > 0)  ? illRepres   : ""));
+        variables.addTextVariable(new TextVariable("#{duty" + iteration + "}",  (unit.getDutyCadets().size() > 0 || unit.getWomen().getDutyCadets().size() > 0) ? dutyRepres  : ""));
+        variables.addTextVariable(new TextVariable("#{ill" + iteration + "}",   (unit.getIllCadets().size() > 0 || unit.getWomen().getIllCadets().size() > 0)  ? illRepres   : ""));
         variables.addTextVariable(new TextVariable("#{hosp" + iteration + "}",  hospRepres));
-        variables.addTextVariable(new TextVariable("#{vac" + iteration + "}",   (unit.getVacationsCount() > 0)    ? vacRepres   : ""));
-        variables.addTextVariable(new TextVariable("#{leave" + iteration + "}", (unit.getOnLeaveCount() > 0)      ? leaveRepres : ""));
+        variables.addTextVariable(new TextVariable("#{vac" + iteration + "}",   (unit.getVacationsCount() > 0 || unit.getWomen().getVacationsCount() > 0)    ? vacRepres   : ""));
+        variables.addTextVariable(new TextVariable("#{leave" + iteration + "}", (unit.getOnLeaveCount() > 0 || unit.getWomen().getOnLeaveCount() > 0)      ? leaveRepres : ""));
         variables.addTextVariable(new TextVariable("#{other" + iteration + "}", otherRepres));
 
 

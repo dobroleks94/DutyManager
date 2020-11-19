@@ -12,6 +12,7 @@ import pl.jsolve.templ4docx.core.Docx;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -147,5 +148,4 @@ public class Utils {
         }
         return false;
     }
-
 }
