@@ -6,86 +6,82 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="675.0" stylesheets="@stylesheets/test.css, @stylesheets/font-adjustments.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="865.0" style="-fx-background-color: linear-gradient(to right, #2a2adb, #12a3dc);" stylesheets="@stylesheets/test.css, @stylesheets/font-adjustments.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.MainPageController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff0b" height="48.0" layoutX="27.0" layoutY="317.0" stroke="BLACK" strokeWidth="2.0" width="620.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2197ff12" height="107.0" layoutX="27.0" layoutY="202.0" stroke="BLACK" strokeWidth="2.0" width="620.0" />
-      <Button fx:id="startButton" defaultButton="true" layoutX="201.0" layoutY="376.0" mnemonicParsing="false" onAction="#start" prefHeight="55.0" prefWidth="250.0" styleClass="test, test2" text="Продовжити" textAlignment="CENTER" textOverrun="CLIP">
+      <Rectangle arcHeight="425.0" arcWidth="425.0" fill="WHITE" height="367.0" layoutX="321.0" layoutY="93.0" stroke="WHITE" strokeType="INSIDE" width="739.0" />
+      <Button fx:id="startButton" defaultButton="true" layoutX="532.0" layoutY="395.0" mnemonicParsing="false" onAction="#start" prefHeight="7.0" prefWidth="197.0" styleClass="test, test2" text="Продовжити" textAlignment="CENTER" textOverrun="CLIP">
          <font>
-            <Font name="Times New Roman Bold" size="30.0" />
+            <Font name="Times New Roman Bold" size="22.0" />
          </font>
       </Button>
-      <Label layoutX="102.0" layoutY="63.0" prefHeight="45.0" prefWidth="461.0" text="ЛАСКАВО ПРОСИМО!">
+      <Label layoutX="19.0" layoutY="192.0" prefHeight="45.0" prefWidth="278.0" text="ЛАСКАВО ПРОСИМО!" textFill="WHITE">
          <font>
-            <Font name="Times New Roman Bold" size="40.0" />
+            <Font name="Times New Roman Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="63.0" layoutY="111.0" prefHeight="20.0" prefWidth="576.0" text="Тепер складати розрахунок особового складу факультету стало легше!" textAlignment="CENTER">
+      <Label layoutX="53.0" layoutY="252.0" prefHeight="95.0" prefWidth="210.0" text="Тепер складати розрахунок особового складу факультету стало легше!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="412.0" layoutY="344.0" text="Час:" textFill="#041343" underline="true">
+         <font>
+            <Font name="Times New Roman Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="dutyDate" layoutX="646.0" layoutY="340.0" text="&quot;01&quot; березня 2020" textFill="#041343">
+         <font>
+            <Font name="Times New Roman Italic" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="dutyTime" layoutX="483.0" layoutY="339.0" prefHeight="20.0" prefWidth="74.0" promptText="--:--">
          <font>
             <Font name="Times New Roman Italic" size="18.0" />
          </font>
-      </Label>
-      <Label layoutX="41.0" layoutY="217.0" text="Дата:" underline="true">
+      </TextField>
+      <Label layoutX="412.0" layoutY="136.0" text="Черговий факультету №" textFill="#041343" underline="true">
          <font>
-            <Font name="Times New Roman Bold" size="25.0" />
+            <Font name="Times New Roman Bold Italic" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="42.0" layoutY="262.0" text="Час:" underline="true">
+      <Label layoutX="389.0" layoutY="264.0" text="П.І.Б:" textFill="#041343" underline="true">
          <font>
-            <Font name="Times New Roman Bold" size="25.0" />
+            <Font name="Times New Roman Bold" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="dutyDate" layoutX="122.0" layoutY="218.0" text="date">
+      <Label layoutX="389.0" layoutY="222.0" text="В/зв:" textFill="#041343" underline="true">
          <font>
-            <Font name="Times New Roman Italic" size="25.0" />
+            <Font name="Times New Roman Bold" size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="dutyTime" layoutX="121.0" layoutY="260.0" prefHeight="26.0" prefWidth="81.0" promptText="--:--">
+      <TextField fx:id="rank" layoutX="467.0" layoutY="218.0" prefHeight="35.0" prefWidth="197.0">
          <font>
             <Font name="Times New Roman Italic" size="19.0" />
          </font>
       </TextField>
-      <Label layoutX="107.0" layoutY="152.0" text="Черговий факультету №" underline="true">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="30.0" />
-         </font>
-      </Label>
-      <Label layoutX="361.0" layoutY="260.0" text="П.І.Б:" underline="true">
-         <font>
-            <Font name="Times New Roman Bold" size="25.0" />
-         </font>
-      </Label>
-      <Label layoutX="361.0" layoutY="218.0" text="В/зв:" underline="true">
-         <font>
-            <Font name="Times New Roman Bold" size="25.0" />
-         </font>
-      </Label>
-      <TextField fx:id="rank" layoutX="439.0" layoutY="218.0" prefHeight="35.0" prefWidth="197.0">
+      <TextField fx:id="fullName" layoutX="467.0" layoutY="258.0" prefHeight="35.0" prefWidth="197.0" promptText="(напр. І. Іваненко)">
          <font>
             <Font name="Times New Roman Italic" size="19.0" />
          </font>
       </TextField>
-      <TextField fx:id="fullName" layoutX="439.0" layoutY="258.0" prefHeight="35.0" prefWidth="197.0" promptText="(напр. І. Іваненко)">
+      <ComboBox fx:id="facultyNumber" layoutX="711.0" layoutY="133.0" prefHeight="34.0" prefWidth="87.0" styleClass="combo-box-font, faculties" visibleRowCount="3" />
+      <Button fx:id="openPreviousButton" defaultButton="true" layoutX="70.0" layoutY="380.0" mnemonicParsing="false" onAction="#openPrevious" prefHeight="31.0" prefWidth="177.0" style="-fx-background-color: darkblue;" text="Відкрити попередній" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="Times New Roman Italic" size="19.0" />
-         </font>
-      </TextField>
-      <ComboBox styleClass="combo-box-font, faculties" fx:id="facultyNumber" layoutX="458.0" layoutY="155.0" prefHeight="34.0" prefWidth="87.0" visibleRowCount="3" />
-      <Button fx:id="openPreviousButton" defaultButton="true" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#openPrevious" prefHeight="31.0" prefWidth="177.0" text="Відкрити попередній" textAlignment="CENTER">
-         <font>
-            <Font name="Times New Roman Bold Italic" size="16.0" />
+            <Font name="Times New Roman Bold" size="16.0" />
          </font>
       </Button>
-      <Label layoutX="549.0" layoutY="431.0" text="© Oleksii Dobroshtan ">
+      <Label layoutX="753.0" layoutY="510.0" text="© Oleksii Dobroshtan ">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <RadioButton fx:id="genList" layoutX="98.0" layoutY="328.0" mnemonicParsing="false" selected="true" text="Загальний">
+      <RadioButton fx:id="genList" layoutX="692.0" layoutY="210.0" mnemonicParsing="false" selected="true" text="Загальний" textFill="#041343">
          <font>
             <Font name="Times New Roman Bold" size="20.0" />
          </font>
@@ -93,15 +89,20 @@
             <ToggleGroup fx:id="womenAdj" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="withWomen" layoutX="289.0" layoutY="328.0" mnemonicParsing="false" text="З ЖВС" toggleGroup="$womenAdj">
+      <RadioButton fx:id="withWomen" layoutX="693.0" layoutY="242.0" mnemonicParsing="false" text="З ЖВС" textFill="#041343" toggleGroup="$womenAdj">
          <font>
             <Font name="Times New Roman Bold" size="20.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="withoutWomen" layoutX="462.0" layoutY="328.0" mnemonicParsing="false" text="Без ЖВС" toggleGroup="$womenAdj">
+      <RadioButton fx:id="withoutWomen" layoutX="693.0" layoutY="274.0" mnemonicParsing="false" text="Без ЖВС" textFill="#041343" toggleGroup="$womenAdj">
          <font>
             <Font name="Times New Roman Bold" size="20.0" />
          </font>
       </RadioButton>
+      <ImageView fitHeight="111.0" fitWidth="142.0" layoutX="88.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icon/viti.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

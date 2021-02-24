@@ -100,11 +100,11 @@ public class MainPageController implements Initializable {
         boolean success = Utils.getEntitiesFromJsonRepresentation();
         if (success){
 
-            Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfoMW.fxml", 865, 570);
+            Stage updatedMain = StageCreationService.createStage(new Stage(), "fxml/mainPage.fxml");
 
-            courseInfoStage.show();
+            updatedMain.show();
             mainPageStage.close();
-            setMainPageStage(courseInfoStage);
+            setMainPageStage(updatedMain);
         }
     }
 

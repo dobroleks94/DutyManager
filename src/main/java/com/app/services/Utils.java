@@ -148,7 +148,7 @@ public class Utils {
 
         try {
             InputStream inputStream = new FileInputStream("./previousDutyList.json");
-            JsonGenEntity entity = (JsonGenEntity)objectMapper.readValue(inputStream, JsonGenEntity.class);
+            JsonGenEntity entity = objectMapper.readValue(inputStream, JsonGenEntity.class);
             FacultyDutyInfo info = entity.getDutyInformation();
             List<FacultyUnit> units = entity.getFacultyUnits();
             info.setFaculty(Faculty.getByNumber(info.getFacultyNum()));

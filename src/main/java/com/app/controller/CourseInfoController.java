@@ -42,12 +42,13 @@ public class CourseInfoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         womenAdj.setText("Розрахунок о/с факультету" + (FacultyDataService.getFacultyDutyInfo().getWomenAdj() == 0 ? " (загальний)" : FacultyDataService.getFacultyDutyInfo().getWomenAdj() == 1 ? " (з ЖВС)" : " (без ЖВС)"));
         FacultyDataService.fillFacultyUnits(eduUnits);
-        if(facultyUnits == null || facultyUnits.isEmpty())
+        if(facultyUnits == null || facultyUnits.isEmpty() || (facultyUnits.get(0).getUnitNumber() / 10) != FacultyDutyInfo.getFaculty().getNumber())
             facultyUnits = eduUnits.getItems()
                     .stream()
                     .map(FacultyDataService::createFacultyUnit)
                     .collect(Collectors.toList());
-        updateForm(getCurrentFacultyUnit());
+        FacultyUnit current = getCurrentFacultyUnit();
+        updateForm(current);
 
 
     }
@@ -153,7 +154,7 @@ public class CourseInfoController implements Initializable {
     public void goToMain() throws IOException {
         try { updateFields(); }
         catch (Exception e) { e.printStackTrace(); }
-        Stage mainPage = StageCreationService.createStage("fxml/mainPage.fxml", 675, 445);
+        Stage mainPage = StageCreationService.createStage(new Stage(), "fxml/mainPage.fxml");
 
         mainPage.show();
         MainPageController.getMainPageStage().close();
