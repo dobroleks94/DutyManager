@@ -5,6 +5,8 @@ import com.app.entity.FacultyDutyInfo;
 import com.app.entity.FacultyUnit;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,7 @@ public class DutyListGeneratorService {
     public DutyListGeneratorService() {
     }
 
-    public static void generateDutyList(List<FacultyUnit> units, FacultyDutyInfo dutyInfo) throws URISyntaxException {
+    public static Path generateDutyList(List<FacultyUnit> units, FacultyDutyInfo dutyInfo) throws URISyntaxException {
         ClassLoader classLoader = DutyListGeneratorService.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("dutytempl/duty_list_template.docx");
 
@@ -28,7 +30,9 @@ public class DutyListGeneratorService {
         template.setVariablePattern(new VariablePattern("#{", "}"));
         Variables variables = createVariablesForTempl(units, dutyInfo);
         template.fillTemplate(variables);
-        Utils.saveFile(template, MainPageController.getMainPageStage(), dutyInfo);
+        Path pathToFile = Utils.saveFile(template, MainPageController.getMainPageStage(), dutyInfo);
+
+        return pathToFile;
     }
 
     private static Variables createVariablesForTempl(List<FacultyUnit> units, FacultyDutyInfo dutyInfo) {

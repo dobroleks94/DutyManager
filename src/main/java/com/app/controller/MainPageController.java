@@ -1,7 +1,6 @@
 package com.app.controller;
 
 import com.app.entity.FacultyDutyInfo;
-import com.app.entity.FacultyUnit;
 import com.app.entity.Officer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,7 +86,7 @@ public class MainPageController implements Initializable {
         FacultyDataService.updateFacultyDutyInfo(facultyNumber.getValue(), dutyTime.getText(), dutyDate.getText(), dutyOfficer, FacultyDataService.getFacultyDutyInfo(), womenAdj);
         System.out.println(FacultyDataService.getFacultyDutyInfo());
 
-        Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfoMW.fxml", 865, 570);
+        Stage courseInfoStage = StageCreationService.createStage("fxml/courseInfo.fxml", 865, 570);
 
         courseInfoStage.show();
         mainPageStage.close();

@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -119,7 +121,7 @@ public class Utils {
         return sb.toString().trim();
     }
 
-    public static void saveFile(Docx template, Stage mainPageStage, FacultyDutyInfo dutyInfo) {
+    public static Path saveFile(Docx template, Stage mainPageStage, FacultyDutyInfo dutyInfo) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Зберегти розхід ...");
         String timeRepres = dutyInfo.getDutyTime().replaceAll(":", "-");
@@ -128,6 +130,8 @@ public class Utils {
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter[]{wordExt});
         File newDutyInfoList = fileChooser.showSaveDialog(mainPageStage);
         template.save(newDutyInfoList.getPath());
+
+        return Paths.get(newDutyInfoList.toURI());
     }
 
     public static void saveJsonRepresentation(List<FacultyUnit> units, FacultyDutyInfo info) {

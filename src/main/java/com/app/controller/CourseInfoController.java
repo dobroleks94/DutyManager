@@ -2,8 +2,6 @@ package com.app.controller;
 
 import com.app.entity.FacultyDutyInfo;
 import com.app.entity.FacultyUnit;
-import com.app.entity.FacultyUnitWomen;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -18,6 +16,7 @@ import com.app.services.Utils;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -145,19 +144,21 @@ public class CourseInfoController implements Initializable {
 
     public void generateDutyList() throws URISyntaxException, IOException {
         updateFields();
-        DutyListGeneratorService.generateDutyList(facultyUnits, FacultyDataService.getFacultyDutyInfo());
+        Path path = DutyListGeneratorService.generateDutyList(facultyUnits, FacultyDataService.getFacultyDutyInfo());
         Utils.saveJsonRepresentation(facultyUnits, FacultyDataService.getFacultyDutyInfo());
         System.out.println("Successfully saved!");
-        goToMain();
+        ResultController.setPath(path);
+
+        goToResult();
     }
 
-    public void goToMain() throws IOException {
+    public void goToResult() throws IOException {
         try { updateFields(); }
         catch (Exception e) { e.printStackTrace(); }
-        Stage mainPage = StageCreationService.createStage(new Stage(), "fxml/mainPage.fxml");
+        Stage resultPage = StageCreationService.createStage(new Stage(), "fxml/resultPage.fxml");
 
-        mainPage.show();
+        resultPage.show();
         MainPageController.getMainPageStage().close();
-        MainPageController.setMainPageStage(mainPage);
+        MainPageController.setMainPageStage(resultPage);
     }
 }
