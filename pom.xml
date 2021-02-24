@@ -27,7 +27,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>DutyManagerApp-1.0</finalName>
+        <finalName>DutyManagerApp-1.2</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

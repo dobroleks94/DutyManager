@@ -1,31 +1,37 @@
 package com.app.services;
 
-import com.app.entity.*;
-import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-
+import com.app.entity.Faculty;
+import com.app.entity.FacultyDutyInfo;
+import com.app.entity.FacultyUnit;
+import com.app.entity.FacultyUnitWomen;
+import com.app.entity.Officer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import javafx.collections.FXCollections;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 public class FacultyDataService {
-
     private static FacultyDutyInfo facultyDutyInfo;
 
-    public static void updateFacultyNumber(ComboBox<Integer> facultyNumber) {
+    public FacultyDataService() {
+    }
 
+    public static void updateFacultyNumber(ComboBox<Integer> facultyNumber) {
         facultyNumber.setValue(Faculty.InformationTechnologies.getNumber());
-        facultyNumber.setItems(
-                FXCollections.observableArrayList(
-                        Arrays.stream(Faculty.values()).map(Faculty::getNumber).collect(Collectors.toList())
-                )
-        );
+        facultyNumber.setItems(FXCollections.observableArrayList((Collection)Arrays.stream(Faculty.values()).map(Faculty::getNumber).collect(Collectors.toList())));
     }
 
     public static FacultyDutyInfo createNewDutyInfo() {
@@ -34,45 +40,36 @@ public class FacultyDataService {
         return empty;
     }
 
-
     public static void updateFacultyDutyInfo(FacultyDutyInfo info) {
         setFacultyDutyInfo(info);
     }
 
     public static void updateFacultyDutyInfo(int facultyNumber, String dutyTime, String dutyDate, Officer dutyOfficer, FacultyDutyInfo facultyDutyInfo, String womenAdj) {
-
         Faculty faculty = Faculty.getByNumber(facultyNumber);
-
         facultyDutyInfo.setDutyDate(dutyDate);
         facultyDutyInfo.setDutyTime(dutyTime);
         facultyDutyInfo.setDutyPerson(dutyOfficer);
         facultyDutyInfo.setFaculty(faculty);
         facultyDutyInfo.setFacultyNum(FacultyDutyInfo.getFaculty().getNumber());
-        facultyDutyInfo.setWomenAdj(
-                womenAdj.equals("general") ? 0 : womenAdj.equals("withWomen") ? 1 : 2
-        );
-
+        facultyDutyInfo.setWomenAdj(womenAdj.equals("general") ? 0 : (womenAdj.equals("withWomen") ? 1 : 2));
         setFacultyDutyInfo(facultyDutyInfo);
     }
 
     public static Officer specifyDutyOfficer(TextField rank, TextField fullName) {
-        return new Officer(
-                rank.getText(),
-                fullName.getText()
-        );
+        return new Officer(rank.getText(), fullName.getText());
     }
 
     public static void fillFacultyUnits(ComboBox<Integer> eduUnits) {
         int facultyNum = FacultyDutyInfo.getFaculty().getNumber();
         int unitCount = 5;
-        Integer currentYear = (LocalDateTime.now().isAfter(ChronoLocalDateTime.from(LocalDateTime.of(LocalDate.now().getYear(), 6, 30, 0, 0))))
-                                ? LocalDateTime.now().getYear()
-                                : LocalDateTime.now().getYear() - 1;
+        int currentYear = (LocalDateTime.now().isAfter(ChronoLocalDateTime.from(LocalDateTime.of(LocalDate.now().getYear(), 6, 30, 0, 0))))
+                ? LocalDateTime.now().getYear()
+                : LocalDateTime.now().getYear() - 1;
 
         List<Integer> facultyUnits = IntStream.iterate(unitCount - 1, i -> i - 1).limit(unitCount)
                 .map(i -> Integer.parseInt(
                         String.valueOf(facultyNum).concat(
-                                String.valueOf(currentYear - i).substring(currentYear.toString().length() - 1)
+                                String.valueOf(currentYear - i).substring(String.valueOf(currentYear).length() - 1)
                         )
                 ))
                 .boxed()
@@ -89,28 +86,26 @@ public class FacultyDataService {
     }
 
     public static FacultyUnit updateFacultyUnit(boolean women, FacultyUnit currentFacultyUnit, String... fields) {
-        if(women){
-            currentFacultyUnit.setWomen(
-                    (FacultyUnitWomen) doGeneralUpdate(currentFacultyUnit.getWomen(), fields)
-            );
+        if (women) {
+            currentFacultyUnit.setWomen((FacultyUnitWomen)doGeneralUpdate(currentFacultyUnit.getWomen(), fields));
             return currentFacultyUnit;
+        } else {
+            return doGeneralUpdate(currentFacultyUnit, fields);
         }
-
-        return doGeneralUpdate(currentFacultyUnit, fields);
     }
-    private static FacultyUnit doGeneralUpdate(FacultyUnit currentFacultyUnit, String[] fields){
+
+    private static FacultyUnit doGeneralUpdate(FacultyUnit currentFacultyUnit, String[] fields) {
         currentFacultyUnit.setGeneralCadetCount(Utils.tryParse(fields[0]) ? Integer.parseInt(fields[0]) : 0);
         currentFacultyUnit.setDutyCadets(Utils.getNamesFrom(fields[1]));
         currentFacultyUnit.setIllCadets(Utils.getNamesFrom(fields[2]));
         currentFacultyUnit.setHospitalLocatedCadets(Utils.getNamesFrom(fields[3]));
         currentFacultyUnit.setHospitalVisitCadets(Utils.getNamesFrom(fields[4]));
-
         if (!Utils.tryParse(fields[5])) {
             currentFacultyUnit.setOnLeaveCadets(Utils.getNamesFrom(fields[5]));
             currentFacultyUnit.setOnLeaveCount(currentFacultyUnit.getOnLeaveCadets().size());
         } else {
             currentFacultyUnit.setOnLeaveCount(Integer.parseInt(fields[5].trim()));
-            currentFacultyUnit.setOnLeaveCadets(new ArrayList<>());
+            currentFacultyUnit.setOnLeaveCadets(new ArrayList());
         }
 
         if (!Utils.tryParse(fields[6])) {
@@ -118,7 +113,7 @@ public class FacultyDataService {
             currentFacultyUnit.setVacationsCount(currentFacultyUnit.getVacationsCadets().size());
         } else {
             currentFacultyUnit.setVacationsCount(Integer.parseInt(fields[6].trim()));
-            currentFacultyUnit.setVacationsCadets(new ArrayList<>());
+            currentFacultyUnit.setVacationsCadets(new ArrayList());
         }
 
         if (!Utils.tryParse(fields[7])) {
@@ -126,46 +121,33 @@ public class FacultyDataService {
             currentFacultyUnit.setDetachedCount(currentFacultyUnit.getDetachedCadets().size());
         } else {
             currentFacultyUnit.setDetachedCount(Integer.parseInt(fields[7].trim()));
-            currentFacultyUnit.setDetachedCadets(new ArrayList<>());
+            currentFacultyUnit.setDetachedCadets(new ArrayList());
         }
 
         if (!Utils.tryParse(fields[8])) {
-
             currentFacultyUnit.setOtherAbsentCadets(Utils.getOtherCadetAbsenceInfo(Utils.getNamesFrom(fields[8])));
-            currentFacultyUnit.setOtherAbsentCount(
-                    currentFacultyUnit.getOtherAbsentCadets()
-                            .values()
-                            .stream()
-                            .reduce(0, Integer::sum)
-            );
-
+            currentFacultyUnit.setOtherAbsentCount(currentFacultyUnit.getOtherAbsentCadets().values().stream().reduce(0, Integer::sum));
         } else {
             currentFacultyUnit.setOtherAbsentCount(Integer.parseInt(fields[8].trim()));
-            currentFacultyUnit.setOtherAbsentCadets(new LinkedHashMap<>());
+            currentFacultyUnit.setOtherAbsentCadets(new LinkedHashMap());
         }
 
         return currentFacultyUnit;
     }
 
-
     public static FacultyDutyInfo getFacultyDutyInfo() {
         return facultyDutyInfo;
     }
+
     public static void setFacultyDutyInfo(FacultyDutyInfo facultyDutyInfo) {
         FacultyDataService.facultyDutyInfo = facultyDutyInfo;
     }
 
     public static String calculatePresentCadets(FacultyUnit unit) {
-        return String.valueOf(
-                unit.getGeneralCadetCount() - (unit.getDetachedCount() + unit.getVacationsCount() +
-                        unit.getOnLeaveCount() + unit.getOtherAbsentCount() +
-                        unit.getDutyCadets().size() + unit.getIllCadets().size() +
-                        unit.getHospitalLocatedCadets().size() + unit.getHospitalVisitCadets().size())
-        );
+        return String.valueOf(unit.getGeneralCadetCount() - (unit.getDetachedCount() + unit.getVacationsCount() + unit.getOnLeaveCount() + unit.getOtherAbsentCount() + unit.getDutyCadets().size() + unit.getIllCadets().size() + unit.getHospitalLocatedCadets().size() + unit.getHospitalVisitCadets().size()));
     }
 
     public static String getHospitalRepresentation(FacultyUnit unit, String action) {
-
         String returnedStatement = "";
 
         switch (action) {
@@ -185,8 +167,8 @@ public class FacultyDataService {
         }
         return "0".equals(returnedStatement) ? "" : returnedStatement;
     }
-    public static String getHospitalRepresentation(List<FacultyUnit> unit) {
 
+    public static String getHospitalRepresentation(List<FacultyUnit> unit) {
         int layHospital = unit.stream().map(FacultyUnit::getHospitalLocatedCadets).map(List::size).reduce(0, Integer::sum);
         int goHospital = unit.stream().map(FacultyUnit::getHospitalVisitCadets).map(List::size).reduce(0, Integer::sum);
 
@@ -204,7 +186,7 @@ public class FacultyDataService {
 
             StringBuilder result = new StringBuilder();
             result.append(menInGo.get(0))
-                    .append("".equals(womenInGo.get(0).trim()) ? "" : ",")
+                    .append("".equals(womenInGo.get(0).trim()) | "".equals(menInGo.get(0).trim()) ? "" : ",")
                     .append((general) ? String.format(" %s", womenInGo.get(0)) : !"".equals(womenInGo.get(0).trim()) ? String.format(" (%s) ", womenInGo.get(0)) : "")
                     .append("".equals(womenInGo.get(1).trim()) & "".equals(menInGo.get(1).trim()) ? "" : " / ")
                     .append(menInGo.get(1))
@@ -221,12 +203,12 @@ public class FacultyDataService {
             int womenGoHosp = womenValues.size() > 1 ? womenValues.get(1) : 0;
 
             if (menGoHosp == 0 & womenGoHosp == 0)
-                return String.valueOf(menInHosp + womenInHosp);
+                return (general) ? String.valueOf(menInHosp + womenInHosp) : String.format("%d (%d)", menInHosp + womenInHosp, womenInHosp);
 
             return (general) ? (menInHosp + womenInHosp) + "/" + (menGoHosp + womenGoHosp)
-                             : (womenInHosp == 0) ? String.format("%d / %d (%d)", menInHosp + womenInHosp, menGoHosp + womenGoHosp, womenGoHosp)
-                             : (womenGoHosp == 0) ? String.format("%d (%d) / %d", menInHosp + womenInHosp, womenInHosp, menGoHosp + womenGoHosp)
-                             : String.format("%d (%d) / %d (%d)", menInHosp + womenInHosp, womenInHosp, menGoHosp + womenGoHosp, womenGoHosp);
+                    : (womenInHosp == 0) ? String.format("%d / %d (%d)", menInHosp + womenInHosp, menGoHosp + womenGoHosp, womenGoHosp)
+                    : (womenGoHosp == 0) ? String.format("%d (%d) / %d", menInHosp + womenInHosp, womenInHosp, menGoHosp + womenGoHosp)
+                    : String.format("%d (%d) / %d (%d)", menInHosp + womenInHosp, womenInHosp, menGoHosp + womenGoHosp, womenGoHosp);
         }
     }
 
@@ -243,16 +225,18 @@ public class FacultyDataService {
         return list;
     }
 
-
-
     public static String getOtherCadetInfo(FacultyUnit unit) {
         StringBuilder sb = new StringBuilder();
-        if (unit.getDetachedCount() > 0) sb.append("відр - ").append(unit.getDetachedCount()).append(";\n");
-        unit.getOtherAbsentCadets()
-                .forEach((descr, count) -> sb.append(descr.toLowerCase()).append(" - ").append(count).append(";\n"));
+        if (unit.getDetachedCount() > 0) {
+            sb.append("відр - ").append(unit.getDetachedCount()).append(";\n");
+        }
 
+        unit.getOtherAbsentCadets().forEach((descr, count) -> {
+            sb.append(descr.toLowerCase()).append(" - ").append(count).append(";\n");
+        });
         return sb.toString();
     }
+
     public static String getOtherCadetInfo(List<FacultyUnit> units) {
         int detached = units.stream().map(FacultyUnit::getDetachedCount).reduce(0, Integer::sum);
         int other = units.stream().map(FacultyUnit::getOtherAbsentCount).reduce(0, Integer::sum);
@@ -265,7 +249,6 @@ public class FacultyDataService {
     }
 
     public static String processOtherRepres(String other, String otherW, int womenAdj) {
-
         Map<String, Integer> otherMen = getKeyValEvaluations(other);
         Map<String, Integer> otherWomen = getKeyValEvaluations(otherW);
 
@@ -289,7 +272,6 @@ public class FacultyDataService {
     }
 
     public static String processOtherRepres(Map<String, Integer> other, Map<String, Integer> otherW, int womenAdj) {
-
         Map<String, String> res = new HashMap<>();
         other.forEach((key, value) -> res.putIfAbsent(key, ""));
         otherW.forEach((key, value) -> res.putIfAbsent(key, ""));
@@ -335,12 +317,10 @@ public class FacultyDataService {
 
 
         return data;
-
     }
 
-    public static void groupInfoTogether(FacultyUnit unit){
-        try{
-
+    public static void groupInfoTogether(FacultyUnit unit) {
+        try {
             unit.getDutyCadets().addAll(unit.getWomen().getDutyCadets());
             unit.getIllCadets().addAll(unit.getWomen().getIllCadets());
             unit.getHospitalLocatedCadets().addAll(unit.getWomen().getHospitalLocatedCadets());
@@ -349,10 +329,10 @@ public class FacultyDataService {
             unit.getVacationsCadets().addAll(unit.getWomen().getVacationsCadets());
             unit.getDetachedCadets().addAll(unit.getWomen().getDetachedCadets());
             unit.getOtherAbsentCadets().putAll(unit.getWomen().getOtherAbsentCadets());
-
-        } catch (NullPointerException e){
-            e.printStackTrace();
+        } catch (NullPointerException var2) {
+            var2.printStackTrace();
             System.out.println("There is no explicit object of women is found!");
         }
+
     }
 }
