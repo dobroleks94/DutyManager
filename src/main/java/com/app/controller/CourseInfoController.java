@@ -2,6 +2,7 @@ package com.app.controller;
 
 import com.app.entity.FacultyDutyInfo;
 import com.app.entity.FacultyUnit;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -156,6 +157,14 @@ public class CourseInfoController implements Initializable {
         try { updateFields(); }
         catch (Exception e) { e.printStackTrace(); }
         Stage resultPage = StageCreationService.createStage(new Stage(), "fxml/resultPage.fxml");
+
+        resultPage.show();
+        MainPageController.getMainPageStage().close();
+        MainPageController.setMainPageStage(resultPage);
+    }
+
+    public void goToMain(ActionEvent actionEvent) throws IOException {
+        Stage resultPage = StageCreationService.createStage(new Stage(), "fxml/mainPage.fxml");
 
         resultPage.show();
         MainPageController.getMainPageStage().close();

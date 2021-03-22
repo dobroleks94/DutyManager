@@ -13,17 +13,20 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="865.0" style="-fx-background-color: linear-gradient(to right, #2a2adb, #12a3dc);" stylesheets="@stylesheets/test.css, @stylesheets/font-adjustments.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.controller.ResultController">
    <children>
       <Rectangle arcHeight="425.0" arcWidth="425.0" fill="WHITE" height="367.0" layoutX="321.0" layoutY="93.0" stroke="WHITE" strokeType="INSIDE" width="739.0" />
-      <Button fx:id="startButton" defaultButton="true" layoutX="567.0" layoutY="407.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="28.0" prefWidth="148.0" styleClass="test, test2" text="На головну" textAlignment="CENTER" textOverrun="CLIP">
+      <Button fx:id="startButton" defaultButton="true" layoutX="544.0" layoutY="398.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="28.0" prefWidth="148.0" styleClass="test, test2" text="На головну" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="Times New Roman Bold" size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Label layoutX="12.0" layoutY="197.0" prefHeight="45.0" prefWidth="307.0" text="УСПІШНО ЗБЕРЕЖЕНО!" textFill="WHITE">
          <font>
             <Font name="Times New Roman Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="53.0" layoutY="252.0" prefHeight="134.0" prefWidth="210.0" text="Ви можете переглянути розхід прямо з програми або відправити його через Telegram" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label layoutX="53.0" layoutY="252.0" prefHeight="134.0" prefWidth="210.0" text="Тепер Ви можете переглянути розхід прямо з програми!" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Times New Roman Italic" size="20.0" />
          </font>
@@ -38,7 +41,7 @@
             <Image url="@icon/viti.png" />
          </image>
       </ImageView>
-      <Pane layoutX="349.0" layoutY="175.0" onMouseClicked="#openFile" prefHeight="177.0" prefWidth="140.0">
+      <Pane layoutX="456.0" layoutY="166.0" onMouseClicked="#openFile" prefHeight="177.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="125.0" fitWidth="150.0" layoutX="9.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -55,7 +58,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane layoutX="532.0" layoutY="178.0" onMouseClicked="#showInFolder" prefHeight="170.0" prefWidth="125.0">
+      <Pane layoutX="639.0" layoutY="169.0" onMouseClicked="#showInFolder" prefHeight="170.0" prefWidth="125.0">
          <children>
             <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -72,7 +75,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Pane disable="true" layoutX="699.0" layoutY="178.0" onMouseClicked="#sendViaTelegram" opacity="0.5" prefHeight="170.0" prefWidth="140.0">
+      <Pane disable="true" layoutX="881.0" layoutY="178.0" onMouseClicked="#sendViaTelegram" opacity="0.5" prefHeight="170.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -78,7 +78,7 @@ public class MainPageController implements Initializable {
         }
     }
 
-    public void start() throws IOException {
+    public void proceed() throws IOException {
 
         Officer dutyOfficer = FacultyDataService.specifyDutyOfficer(rank, fullName);
         String womenAdj = genList.isSelected() ? "general" : withWomen.isSelected() ? "withWomen" : "withoutWomen";

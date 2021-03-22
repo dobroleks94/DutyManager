@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -31,6 +32,9 @@
          <font>
             <Font name="Times New Roman Bold" size="22.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <Label layoutX="28.0" layoutY="166.0" text="Наряд:" textFill="#041343" underline="true">
          <font>
@@ -142,6 +146,9 @@
          <font>
             <Font name="Times New Roman Bold" size="22.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
       <TextField fx:id="dutyNamesStrW" layoutX="585.0" layoutY="164.0" prefHeight="26.0" prefWidth="250.0" promptText="Прізвища">
          <font>
