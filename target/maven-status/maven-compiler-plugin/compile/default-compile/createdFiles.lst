@@ -1,5 +1,6 @@
 com/app/controller/ResultController.class
 com/app/controller/CourseInfoController.class
+com/app/services/TimeOfDayService.class
 com/app/entity/FacultyUnitWomen.class
 com/app/controller/MainPageController.class
 com/app/services/Utils.class

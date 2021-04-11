@@ -6,7 +6,6 @@ import com.app.entity.FacultyUnit;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +15,17 @@ import pl.jsolve.templ4docx.core.VariablePattern;
 import pl.jsolve.templ4docx.variable.TextVariable;
 import pl.jsolve.templ4docx.variable.Variables;
 
+
 public class DutyListGeneratorService {
-    public DutyListGeneratorService() {
-    }
+
+    public DutyListGeneratorService() { }
 
     public static Path generateDutyList(List<FacultyUnit> units, FacultyDutyInfo dutyInfo) throws URISyntaxException {
         ClassLoader classLoader = DutyListGeneratorService.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("dutytempl/duty_list_template.docx");
+        String templateName = TimeOfDayService.isMorning()
+                ? "duty_list_template_morning.docx"
+                : "duty_list_template.docx" ;
+        InputStream inputStream = classLoader.getResourceAsStream("dutytempl/".concat(templateName));
 
         assert inputStream != null;
 

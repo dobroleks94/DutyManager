@@ -24,10 +24,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 public class FacultyDataService {
+
     private static FacultyDutyInfo facultyDutyInfo;
 
-    public FacultyDataService() {
-    }
+    public FacultyDataService() { }
 
     public static void updateFacultyNumber(ComboBox<Integer> facultyNumber) {
         facultyNumber.setValue(Faculty.InformationTechnologies.getNumber());

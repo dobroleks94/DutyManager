@@ -25,8 +25,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import pl.jsolve.templ4docx.core.Docx;
 
 public class Utils {
-    public Utils() {
-    }
+
+    public Utils() { }
 
     public static String monthValueConverter(int month) {
         return month == 1 ? "січня" :

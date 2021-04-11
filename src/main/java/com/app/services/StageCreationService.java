@@ -13,8 +13,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class StageCreationService {
-    public StageCreationService() {
-    }
+
+    public StageCreationService() { }
 
     public static Stage createStage(String fxmlLocation, int sceneWidth, int sceneHeight) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(StageCreationService.class.getClassLoader().getResource(fxmlLocation)));
